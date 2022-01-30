@@ -11,13 +11,13 @@ datasource db {
 }
 
 model Word {
-  id    Int      @id @unique 
+  id    Int      @id @default(autoincrement())
   name  String @unique  
   letters Letter[] 
 }
 
 model Letter {
-  id Int @id @unique 
+  id Int @id @default(autoincrement())
   name String 
   words Word[]
 }
