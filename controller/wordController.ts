@@ -18,9 +18,6 @@ export async function storeWord(ctx: Context, next: Next): Promise<void> {
         const wordStored = await prisma.word.create({
             data: {
                 name: word,
-                letters: {
-                    create: lettersArray,
-                },
             },
         });
         console.log('Hppenin?', wordStored);

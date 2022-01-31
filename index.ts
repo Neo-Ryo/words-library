@@ -3,6 +3,7 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import { config } from 'dotenv';
 import { wordsRouter } from './routes/wordsRoutes';
+import { letterRouter } from './routes/letterRoutes';
 
 config();
 
@@ -16,9 +17,11 @@ router.get('/', async (ctx: Context) => {
     ctx.body = 'Welcome on words library';
 });
 
-app.use(router.routes()).use(router.allowedMethods());
+console.log('a' + 1);
 
+app.use(router.routes()).use(router.allowedMethods());
 app.use(wordsRouter.routes()).use(wordsRouter.allowedMethods());
+app.use(letterRouter.routes()).use(letterRouter.allowedMethods);
 
 app.on('error', (err) => {
     console.error('server error', err);
