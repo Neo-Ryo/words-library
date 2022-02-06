@@ -12,20 +12,6 @@ datasource db {
 
 model Word {
   id    Int      @id @default(autoincrement())
-  name  String @unique  
-  lettersPosition LetterPosition[]
+  name  String @unique
 }
 
-model Letter {
-  id Int @id @default(autoincrement())
-  charCode Int
-  letterPosition LetterPosition[]
-}
-
-model LetterPosition {
-  id Int @id @default(autoincrement())
-  letter Letter @relation(fields: [letterId], references: [id])
-  letterId Int
-  word Word @relation(fields: [wordId], references: [id])
-  wordId Int 
-}

@@ -1,6 +1,11 @@
 import Router from '@koa/router';
-import { getAllWords, storeWord } from '../controller/wordController';
+import {
+    getAllWords,
+    storeWord,
+    getWordsWithFirstLetter,
+} from '../controller/wordController';
 export const wordsRouter = new Router({ prefix: '/words' });
 
 wordsRouter.get('/', getAllWords);
-wordsRouter.post('/store', storeWord);
+wordsRouter.post('/', storeWord);
+wordsRouter.get('/first/:letter', getWordsWithFirstLetter);
