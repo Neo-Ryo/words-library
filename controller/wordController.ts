@@ -46,8 +46,6 @@ export async function getWordsWithFirstLetter(ctx: Context): Promise<void> {
                 },
             },
         });
-        console.log(words);
-
         ctx.body = words;
     } catch (error) {
         console.log(error);
