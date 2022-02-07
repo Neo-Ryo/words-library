@@ -17,8 +17,10 @@
     "dependencies": {
         "@koa/router": "^10.1.1",
         "@prisma/client": "^3.9.1",
+        "@types/axios": "^0.14.0",
         "@types/koa": "^2.13.4",
         "@types/koa-bodyparser": "^4.3.5",
+        "axios": "^0.25.0",
         "dotenv": "^14.3.2",
         "koa": "^2.13.4",
         "koa-bodyparser": "^4.3.0"
