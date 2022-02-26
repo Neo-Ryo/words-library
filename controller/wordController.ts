@@ -1,7 +1,10 @@
 import { Word } from '@prisma/client';
-import { Next, Context } from 'koa';
+import { Context } from 'koa';
 import { prisma } from '../primaClient';
-import axios from 'axios';
+import {
+    advancedSearchFn,
+    precisSearchWithPosition,
+} from '../utils/advancedSearch';
 
 export async function getAllWords(ctx: Context): Promise<void> {
     try {
@@ -69,34 +72,34 @@ export async function containsLettersSearch(ctx: Context): Promise<void> {
             string,
             string
         ][];
+        console.log(inputDataLettersArray);
 
-        const advancedSearch = wordsWithFirstLetter.reduce<Word[]>(
-            (acc, curVal) => {
-                for (const l in inputDataLettersArray) {
-                    if (
-                        curVal.name.includes(inputDataLettersArray[l][1]) &&
-                        parseInt(l) === inputDataLettersArray.length - 1
-                    ) {
-                        acc.push(curVal);
-                        break;
-                    } else if (
-                        curVal.name.includes(inputDataLettersArray[l][1]) &&
-                        parseInt(l) < inputDataLettersArray.length - 1
-                    ) {
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
-                return acc;
-            },
-            []
-        );
-        ctx.body = advancedSearch;
+        ctx.body = advancedSearchFn(
+            wordsWithFirstLetter,
+            inputDataLettersArray
+        ).filter((w: Word) => w.name.length === 7);
     } catch (error) {
         console.log(error);
         ctx.body = error;
     }
 }
 
+export async function precisSearch(ctx: Context): Promise<void> {
+    try {
+        const { letter } = ctx.params;
+        // body = { 1: "a", 4: "e", 5: "t"} ... etc
+        const body = ctx.request.body;
+        const wordsWithFirstLetter = await prisma.word.findMany({
+            where: {
+                name: {
+                    startsWith: letter,
+                },
+            },
+        });
+        ctx.body = precisSearchWithPosition(wordsWithFirstLetter, body);
+    } catch (error) {
+        console.log(error);
+        ctx.body = error;
+    }
+}
 // TODO ---> make a function to find spécific words with letters in spécific indexes
